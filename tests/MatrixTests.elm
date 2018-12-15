@@ -1,10 +1,10 @@
-module MatrixTests exposing (..)
+module MatrixTests exposing (suite)
 
+import Array
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
-import Test exposing (..)
 import Matrix
-import Array
+import Test exposing (..)
 
 
 suite : Test
@@ -19,7 +19,7 @@ suite =
                     matrix =
                         Matrix.fromArray array 5
                 in
-                    Expect.equal 1 matrix.nrows
+                Expect.equal 1 matrix.nrows
         , test "given correct index get should return correct value" <|
             \_ ->
                 let
@@ -29,7 +29,7 @@ suite =
                     matrix =
                         Matrix.fromArray array 2
                 in
-                    Expect.equal (Just 8) (Matrix.get ( 3, 1 ) matrix)
+                Expect.equal (Just 8) (Matrix.get ( 3, 1 ) matrix)
         , test "given incorrect index get should return nothing" <|
             \_ ->
                 let
@@ -39,5 +39,5 @@ suite =
                     matrix =
                         Matrix.fromArray array 2
                 in
-                    Expect.equal Nothing (Matrix.get ( 2, 2 ) matrix)
+                Expect.equal Nothing (Matrix.get ( 2, 2 ) matrix)
         ]

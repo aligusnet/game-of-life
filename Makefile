@@ -10,4 +10,4 @@ test:
 	elm-test
 
 format:
-	elm-format --yes .
+	elm-format --yes --elm-version=0.19 .

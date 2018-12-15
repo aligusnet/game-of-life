@@ -1,4 +1,4 @@
-module Matrix exposing (..)
+module Matrix exposing (Matrix, fromArray, fromList, get)
 
 {-| Immutable Matrix implementation based on Arrays.
 -}
@@ -18,7 +18,7 @@ type alias Matrix a =
 fromArray : Array a -> Int -> Matrix a
 fromArray array ncols =
     { data = array
-    , nrows = (Array.length array) // ncols
+    , nrows = Array.length array // ncols
     , ncols = ncols
     }
 
@@ -30,12 +30,13 @@ fromList list =
     fromArray (Array.fromList list)
 
 
-{-| Get `Just` the element at the index 
+{-| Get `Just` the element at the index
 or `Nothing` if the index is out of range.
 -}
 get : ( Int, Int ) -> Matrix a -> Maybe a
 get ( i, j ) m =
     if i >= 0 && i < m.nrows && j >= 0 && j < m.ncols then
         Array.get (i * m.ncols + j) m.data
+
     else
         Nothing

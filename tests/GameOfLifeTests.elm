@@ -9,23 +9,14 @@ import Matrix exposing (Matrix)
 import Test exposing (..)
 
 
-{-| Block Universe. Still-live type.
-----
--XX-
--XX-
-----
+{-| Block Universe. Still\_live type.
 -}
 block : Matrix Int
 block =
     Matrix.fromList [ 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0 ] 4
 
 
-{-| Boat Universe. Still-live type.
------
--XX--
--X-X-
---X--
------
+{-| Boat Universe. Still\_live type.
 -}
 boat : Matrix Int
 boat =
@@ -33,11 +24,6 @@ boat =
 
 
 {-| Blinker Universe. Oscillator type with period = 2. State 1.
------
---X--
---X--
---X--
------
 -}
 blinker_1 : Matrix Int
 blinker_1 =
@@ -45,11 +31,6 @@ blinker_1 =
 
 
 {-| Blinker Universe. Oscillator type with period = 2. State 2.
------
------
--XXX-
------
------
 -}
 blinker_2 : Matrix Int
 blinker_2 =
@@ -57,11 +38,6 @@ blinker_2 =
 
 
 {-| Glider Universe. Spaceship type. State 1.
--X---
---X--
-XXX--
------
------
 -}
 glider_1 : Matrix Int
 glider_1 =
@@ -69,11 +45,6 @@ glider_1 =
 
 
 {-| Glider Universe. Spaceship type. State 2.
------
-X-X--
--XX--
--X---
------
 -}
 glider_2 : Matrix Int
 glider_2 =
@@ -81,11 +52,6 @@ glider_2 =
 
 
 {-| Glider Universe. Spaceship type. State 3.
------
---X--
-X-X--
--XX--
------
 -}
 glider_3 : Matrix Int
 glider_3 =
@@ -93,15 +59,17 @@ glider_3 =
 
 
 {-| Glider Universe. Spaceship type. State 4.
------
--X---
---XX-
--XX--
------
 -}
 glider_4 : Matrix Int
 glider_4 =
     Matrix.fromList [ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 ] 5
+
+
+{-| Glider Universe. Spaceship type. State 5.
+-}
+glider_5 : Matrix Int
+glider_5 =
+    Matrix.fromList [ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0 ] 5
 
 
 suite : Test
@@ -131,4 +99,7 @@ suite =
         , test "Glider Universe moves. Step 3" <|
             \_ ->
                 Expect.equal glider_4 (transit glider_3)
+        , test "Glider Universe moves. Step 4" <|
+            \_ ->
+                Expect.equal glider_5 (transit glider_4)
         ]

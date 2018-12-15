@@ -10,6 +10,10 @@ import Test exposing (..)
 
 
 {-| Block Universe. Still-live type.
+----
+-XX-
+-XX-
+----
 -}
 block : Matrix Int
 block =
@@ -17,6 +21,11 @@ block =
 
 
 {-| Boat Universe. Still-live type.
+-----
+-XX--
+-X-X-
+--X--
+-----
 -}
 boat : Matrix Int
 boat =
@@ -24,6 +33,11 @@ boat =
 
 
 {-| Blinker Universe. Oscillator type with period = 2. State 1.
+-----
+--X--
+--X--
+--X--
+-----
 -}
 blinker_1 : Matrix Int
 blinker_1 =
@@ -31,6 +45,11 @@ blinker_1 =
 
 
 {-| Blinker Universe. Oscillator type with period = 2. State 2.
+-----
+-----
+-XXX-
+-----
+-----
 -}
 blinker_2 : Matrix Int
 blinker_2 =
@@ -38,6 +57,11 @@ blinker_2 =
 
 
 {-| Glider Universe. Spaceship type. State 1.
+-X---
+--X--
+XXX--
+-----
+-----
 -}
 glider_1 : Matrix Int
 glider_1 =
@@ -45,6 +69,11 @@ glider_1 =
 
 
 {-| Glider Universe. Spaceship type. State 2.
+-----
+X-X--
+-XX--
+-X---
+-----
 -}
 glider_2 : Matrix Int
 glider_2 =
@@ -52,6 +81,11 @@ glider_2 =
 
 
 {-| Glider Universe. Spaceship type. State 3.
+-----
+--X--
+X-X--
+-XX--
+-----
 -}
 glider_3 : Matrix Int
 glider_3 =
@@ -59,6 +93,11 @@ glider_3 =
 
 
 {-| Glider Universe. Spaceship type. State 4.
+-----
+-X---
+--XX-
+-XX--
+-----
 -}
 glider_4 : Matrix Int
 glider_4 =

@@ -9,24 +9,60 @@ import Matrix exposing (Matrix)
 import Test exposing (..)
 
 
+{-| Block Universe. Still-live type.
+-}
 block : Matrix Int
 block =
     Matrix.fromList [ 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0 ] 4
 
 
+{-| Boat Universe. Still-live type.
+-}
 boat : Matrix Int
 boat =
     Matrix.fromList [ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ] 5
 
 
+{-| Blinker Universe. Oscillator type with period = 2. State 1.
+-}
 blinker_1 : Matrix Int
 blinker_1 =
     Matrix.fromList [ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ] 5
 
 
+{-| Blinker Universe. Oscillator type with period = 2. State 2.
+-}
 blinker_2 : Matrix Int
 blinker_2 =
     Matrix.fromList [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] 5
+
+
+{-| Glider Universe. Spaceship type. State 1.
+-}
+glider_1 : Matrix Int
+glider_1 =
+    Matrix.fromList [ 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] 5
+
+
+{-| Glider Universe. Spaceship type. State 2.
+-}
+glider_2 : Matrix Int
+glider_2 =
+    Matrix.fromList [ 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ] 5
+
+
+{-| Glider Universe. Spaceship type. State 3.
+-}
+glider_3 : Matrix Int
+glider_3 =
+    Matrix.fromList [ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 ] 5
+
+
+{-| Glider Universe. Spaceship type. State 4.
+-}
+glider_4 : Matrix Int
+glider_4 =
+    Matrix.fromList [ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 ] 5
 
 
 suite : Test
@@ -47,4 +83,13 @@ suite =
                     |> transit
                     |> transit
                     |> Expect.equal blinker_1
+        , test "Glider Universe moves. Step 1" <|
+            \_ ->
+                Expect.equal glider_2 (transit glider_1)
+        , test "Glider Universe moves. Step 2" <|
+            \_ ->
+                Expect.equal glider_3 (transit glider_2)
+        , test "Glider Universe moves. Step 3" <|
+            \_ ->
+                Expect.equal glider_4 (transit glider_3)
         ]

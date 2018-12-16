@@ -1,4 +1,4 @@
-module Matrix exposing (Matrix, fromArray, fromList, generatePairs, get, indexedMap, initialize, toIndexedList)
+module Matrix exposing (Matrix, fromArray, fromList, generatePairs, get, horizontalFlip, indexedMap, initialize, toIndexedList, verticalFlip)
 
 {-| Immutable Matrix implementation based on Arrays.
 -}
@@ -137,3 +137,25 @@ generatePairs ( minI, maxI ) ( minJ, maxJ ) =
                 helper (( i, j ) :: pairs) i (j + 1)
     in
     helper [] minI minJ
+
+
+{-| Flip the matrix vertically.
+-}
+verticalFlip : Matrix number -> Matrix number
+verticalFlip m =
+    let
+        f ( i, j ) =
+            Maybe.withDefault 0 (get ( i, m.ncols - j - 1 ) m)
+    in
+    initialize ( m.nrows, m.ncols ) f
+
+
+{-| Flip the matrix horizontally.
+-}
+horizontalFlip : Matrix number -> Matrix number
+horizontalFlip m =
+    let
+        f ( i, j ) =
+            Maybe.withDefault 0 (get ( m.nrows - i - 1, j ) m)
+    in
+    initialize ( m.nrows, m.ncols ) f

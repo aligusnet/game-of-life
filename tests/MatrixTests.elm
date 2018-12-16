@@ -79,4 +79,24 @@ suite =
                         i * 10 + j
                 in
                 Expect.equal expectedMatrix (Matrix.initialize ( 4, 3 ) f)
+        , test "vertical flip" <|
+            \_ ->
+                let
+                    matrix =
+                        Matrix.fromList [ 0, 1, 2, 3, 4, 5 ] 3
+
+                    expectedMatrix =
+                        Matrix.fromList [ 2, 1, 0, 5, 4, 3 ] 3
+                in
+                Expect.equal expectedMatrix (Matrix.verticalFlip matrix)
+        , test "horizontal flip" <|
+            \_ ->
+                let
+                    matrix =
+                        Matrix.fromList [ 0, 1, 2, 3, 4, 5 ] 3
+
+                    expectedMatrix =
+                        Matrix.fromList [ 3, 4, 5, 0, 1, 2 ] 3
+                in
+                Expect.equal expectedMatrix (Matrix.horizontalFlip matrix)
         ]

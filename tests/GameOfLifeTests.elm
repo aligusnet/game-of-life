@@ -3,7 +3,7 @@ module GameOfLifeTests exposing (suite)
 import Array
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
-import GameOfLife exposing (transit)
+import GameOfLife exposing (initialize, transit)
 import List
 import Matrix exposing (Matrix)
 import Test exposing (..)
@@ -102,4 +102,14 @@ suite =
         , test "Glider Universe moves. Step 4" <|
             \_ ->
                 Expect.equal glider_5 (transit glider_4)
+        , test "initialize" <|
+            \_ ->
+                let
+                    pattern =
+                        Matrix.fromList [ 1, 0, 0, 1 ] 2
+
+                    expectedMatrix =
+                        Matrix.fromList [ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ] 5
+                in
+                Expect.equal expectedMatrix (initialize ( 4, 5 ) pattern)
         ]

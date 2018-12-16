@@ -9,14 +9,14 @@ import Matrix exposing (Matrix)
 import Test exposing (..)
 
 
-{-| Block Universe. Still\_live type.
+{-| Block Universe. Still-live type.
 -}
 block : Matrix Int
 block =
     Matrix.fromList [ 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0 ] 4
 
 
-{-| Boat Universe. Still\_live type.
+{-| Boat Universe. Still-live type.
 -}
 boat : Matrix Int
 boat =

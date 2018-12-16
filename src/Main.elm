@@ -29,14 +29,7 @@ type alias Model =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    let
-        minRows =
-            70
-
-        minCols =
-            70
-    in
-    ( Model 0 250 200.0 (GameOfLife.initialize ( minRows, minCols ) GameOfLife.Pattern.engine), Cmd.none )
+    ( Model 0 250 200.0 GameOfLife.Pattern.universe_1, Cmd.none )
 
 
 type Msg

@@ -29,7 +29,14 @@ type alias Model =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model 0 100 200 GameOfLife.Pattern.engine, Cmd.none )
+    let
+        minRows =
+            70
+
+        minCols =
+            70
+    in
+    ( Model 0 250 200.0 (GameOfLife.initialize ( minRows, minCols ) GameOfLife.Pattern.engine), Cmd.none )
 
 
 type Msg
@@ -56,4 +63,4 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    div [] [ viewMatrix model.universe ]
+    div [] [ viewMatrix "560" "#1f77b4" model.universe ]

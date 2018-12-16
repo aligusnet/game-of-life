@@ -1,8 +1,31 @@
-module GameOfLife exposing (isLive, transit)
+module GameOfLife exposing (initialize, isLive, transit)
 
 import List
 import Matrix exposing (Matrix)
 import Maybe
+
+
+{-| Initialize a universe using the given pattern.
+-}
+initialize : ( Int, Int ) -> Matrix Int -> Matrix Int
+initialize ( minNrows, minNcols ) pattern =
+    let
+        nrows =
+            max minNrows pattern.nrows
+
+        ncols =
+            max minNcols pattern.ncols
+
+        offsetI =
+            (nrows - pattern.nrows) // 2
+
+        offsetJ =
+            (ncols - pattern.ncols) // 2
+
+        f ( i, j ) =
+            Maybe.withDefault 0 (Matrix.get ( i - offsetI, j - offsetJ ) pattern)
+    in
+    Matrix.initialize ( nrows, ncols ) f
 
 
 {-| Calculates the next state of the universe.

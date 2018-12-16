@@ -8,13 +8,16 @@ import Svg exposing (..)
 import Svg.Attributes exposing (..)
 
 
-viewMatrix : Matrix Int -> Html msg
-viewMatrix matrix =
+viewMatrix : String -> String -> Matrix Int -> Html msg
+viewMatrix w c matrix =
     svg
-        [ width (matrix.ncols * 10 |> String.fromInt)
+        [ width w
         , viewBox ("0 0 " ++ String.fromInt matrix.ncols ++ " " ++ String.fromInt matrix.nrows)
         ]
-        (getLiveRects matrix)
+        [ g
+            [ color c ]
+            (getLiveRects matrix)
+        ]
 
 
 getLiveRects : Matrix Int -> List (Svg msg)
@@ -32,5 +35,6 @@ toRect ( ( i, j ), _ ) =
         , y (String.fromInt i)
         , width "1"
         , height "1"
+        , fill "currentColor"
         ]
         []

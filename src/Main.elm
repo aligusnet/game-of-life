@@ -29,7 +29,7 @@ type alias Model =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model 0 250 200.0 GameOfLife.Pattern.universe_1, Cmd.none )
+    ( Model 0 250 200.0 GameOfLife.Pattern.universe2, Cmd.none )
 
 
 type Msg

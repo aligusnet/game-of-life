@@ -1,4 +1,4 @@
-module Matrix exposing (Matrix, fromArray, fromList, generatePairs, get, indexedMap, toIndexedList)
+module Matrix exposing (Matrix, fromArray, fromList, generatePairs, get, indexedMap, initialize, toIndexedList)
 
 {-| Immutable Matrix implementation based on Arrays.
 -}
@@ -12,6 +12,32 @@ type alias Matrix a =
     { data : Array a
     , nrows : Int
     , ncols : Int
+    }
+
+
+{-| Initialize a matrix.
+initialize (nrows, ncols) f creates a matrix of size (nrows, ncols)
+with the element at index (i, j) initialized to the result of (f (i, j)).
+-}
+initialize : ( Int, Int ) -> (( Int, Int ) -> a) -> Matrix a
+initialize ( nrows, ncols ) f =
+    let
+        fa k =
+            let
+                i =
+                    k // ncols
+
+                j =
+                    k - i * ncols
+            in
+            f ( i, j )
+
+        data =
+            Array.initialize (nrows * ncols) fa
+    in
+    { data = data
+    , nrows = nrows
+    , ncols = ncols
     }
 
 

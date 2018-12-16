@@ -69,4 +69,14 @@ suite =
                         [ ( ( 0, 0 ), 1 ), ( ( 0, 1 ), 2 ), ( ( 1, 0 ), 3 ), ( ( 1, 1 ), 4 ), ( ( 2, 0 ), 5 ), ( ( 2, 1 ), 6 ), ( ( 3, 0 ), 7 ), ( ( 3, 1 ), 8 ) ]
                 in
                 Expect.equal expectedIndexedList (Matrix.toIndexedList matrix)
+        , test "initialize" <|
+            \_ ->
+                let
+                    expectedMatrix =
+                        Matrix.fromList [ 0, 1, 2, 10, 11, 12, 20, 21, 22, 30, 31, 32 ] 3
+
+                    f ( i, j ) =
+                        i * 10 + j
+                in
+                Expect.equal expectedMatrix (Matrix.initialize ( 4, 3 ) f)
         ]

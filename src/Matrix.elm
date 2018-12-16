@@ -1,4 +1,4 @@
-module Matrix exposing (Matrix, fromArray, fromList, generatePairs, get, indexedMap)
+module Matrix exposing (Matrix, fromArray, fromList, generatePairs, get, indexedMap, toIndexedList)
 
 {-| Immutable Matrix implementation based on Arrays.
 -}
@@ -30,6 +30,18 @@ fromArray array ncols =
 fromList : List a -> Int -> Matrix a
 fromList list =
     fromArray (Array.fromList list)
+
+
+{-| Create an indexed list from an matrix.
+Each element of the matrix will be paired with its index.
+-}
+toIndexedList : Matrix a -> List ( ( Int, Int ), a )
+toIndexedList m =
+    let
+        indices =
+            generatePairs ( 0, m.nrows ) ( 0, m.ncols ) |> List.reverse
+    in
+    List.map2 (\a b -> ( a, b )) indices (Array.toList m.data)
 
 
 {-| Get `Just` the element at the index

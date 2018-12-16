@@ -59,4 +59,14 @@ suite =
                         Matrix.fromList [ 1, 12, 103, 114, 205, 216, 307, 318 ] 2
                 in
                 Expect.equal expectedMatrix (Matrix.indexedMap f matrix)
+        , test "to indexed list" <|
+            \_ ->
+                let
+                    matrix =
+                        Matrix.fromList [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] 2
+
+                    expectedIndexedList =
+                        [ ( ( 0, 0 ), 1 ), ( ( 0, 1 ), 2 ), ( ( 1, 0 ), 3 ), ( ( 1, 1 ), 4 ), ( ( 2, 0 ), 5 ), ( ( 2, 1 ), 6 ), ( ( 3, 0 ), 7 ), ( ( 3, 1 ), 8 ) ]
+                in
+                Expect.equal expectedIndexedList (Matrix.toIndexedList matrix)
         ]

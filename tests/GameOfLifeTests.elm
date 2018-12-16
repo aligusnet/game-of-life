@@ -3,7 +3,7 @@ module GameOfLifeTests exposing (suite)
 import Array
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
-import GameOfLife exposing (initialize, transit)
+import GameOfLife exposing (batchInitialize, initialize, transit)
 import List
 import Matrix exposing (Matrix)
 import Test exposing (..)
@@ -112,4 +112,26 @@ suite =
                         Matrix.fromList [ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ] 5
                 in
                 Expect.equal expectedMatrix (initialize ( 4, 5 ) pattern)
+        , test "batch initialize" <|
+            \_ ->
+                let
+                    pattern1 =
+                        Matrix.fromList [ 1, 0, 0, 1 ] 2
+
+                    offsets1 =
+                        ( 1, 1 )
+
+                    pattern2 =
+                        Matrix.fromList [ 1, 1, 1, 1, 1, 1 ] 2
+
+                    offsets2 =
+                        ( 2, 1 )
+
+                    expectedMatrix =
+                        Matrix.fromList [ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0 ] 5
+
+                    patterns =
+                        [ ( offsets1, pattern1 ), ( offsets2, pattern2 ) ]
+                in
+                Expect.equal expectedMatrix (batchInitialize ( 4, 5 ) patterns)
         ]

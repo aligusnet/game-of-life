@@ -1,4 +1,4 @@
-module GameOfLife exposing (initialize, isLive, transit)
+module GameOfLife exposing (batchInitialize, initialize, isLive, transit)
 
 import List
 import Matrix exposing (Matrix)
@@ -24,6 +24,20 @@ initialize ( minNrows, minNcols ) pattern =
 
         f ( i, j ) =
             Maybe.withDefault 0 (Matrix.get ( i - offsetI, j - offsetJ ) pattern)
+    in
+    Matrix.initialize ( nrows, ncols ) f
+
+
+{-| Initialize a universe using the given lis of patterns with offsets.
+-}
+batchInitialize : ( Int, Int ) -> List ( ( Int, Int ), Matrix Int ) -> Matrix Int
+batchInitialize ( nrows, ncols ) patterns =
+    let
+        f ( i, j ) =
+            patterns
+                |> List.filterMap (\( ( offsetI, offsetJ ), pattern ) -> Matrix.get ( i - offsetI, j - offsetJ ) pattern)
+                |> List.maximum
+                |> Maybe.withDefault 0
     in
     Matrix.initialize ( nrows, ncols ) f
 

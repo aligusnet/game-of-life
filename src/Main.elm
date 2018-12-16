@@ -1,8 +1,12 @@
 module Main exposing (main)
 
 import Browser
+import GameOfLife
+import GameOfLife.Pattern
 import Html exposing (..)
+import Matrix exposing (Matrix)
 import Time
+import View exposing (viewMatrix)
 
 
 main : Program () Model Msg
@@ -17,13 +21,15 @@ main =
 
 type alias Model =
     { step : Int
+    , maxSteps : Int
     , interval : Float
+    , universe : Matrix Int
     }
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model 0 200, Cmd.none )
+    ( Model 0 100 200 GameOfLife.Pattern.engine, Cmd.none )
 
 
 type Msg
@@ -34,7 +40,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Tick _ ->
-            ( { model | step = model.step + 1 }
+            ( { model | step = model.step + 1, universe = GameOfLife.transit model.universe }
             , Cmd.none
             )
 
@@ -50,4 +56,4 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    div [] [ text (String.fromInt model.step) ]
+    div [] [ viewMatrix model.universe ]

@@ -1,4 +1,4 @@
-module GameOfLife exposing (transit)
+module GameOfLife exposing (isLive, transit)
 
 import List
 import Matrix exposing (Matrix)

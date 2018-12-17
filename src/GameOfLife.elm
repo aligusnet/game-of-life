@@ -1,8 +1,6 @@
 module GameOfLife exposing (batchInitialize, initialize, isLive, transit)
 
-import List
 import Matrix exposing (Matrix)
-import Maybe
 
 
 {-| Initialize a universe using the given pattern.

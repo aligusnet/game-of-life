@@ -3,7 +3,6 @@ module MatrixTests exposing (suite)
 import Array
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
-import List
 import Matrix
 import Test exposing (..)
 

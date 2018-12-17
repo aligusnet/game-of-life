@@ -4,8 +4,6 @@ module Matrix exposing (Matrix, fromArray, fromList, generatePairs, get, horizon
 -}
 
 import Array exposing (Array)
-import List
-import Maybe
 
 
 type alias Matrix a =

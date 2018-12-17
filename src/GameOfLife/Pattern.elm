@@ -1,4 +1,4 @@
-module GameOfLife.Pattern exposing (engine, glider, pulsar, universe1, universe2)
+module GameOfLife.Pattern exposing (blinker1, blinker2, boat, engine, glider, pulsar, universe1, universe2)
 
 import GameOfLife exposing (batchInitialize)
 import Matrix exposing (Matrix)

@@ -4,7 +4,7 @@ import Array
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
 import GameOfLife exposing (batchInitialize, initialize, transit)
-import List
+import GameOfLife.Pattern exposing (blinker1, blinker2, boat, glider)
 import Matrix exposing (Matrix)
 import Test exposing (..)
 
@@ -16,59 +16,31 @@ block =
     Matrix.fromList [ 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0 ] 4
 
 
-{-| Boat Universe. Still-live type.
--}
-boat : Matrix Int
-boat =
-    Matrix.fromList [ 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ] 5
-
-
-{-| Blinker Universe. Oscillator type with period = 2. State 1.
--}
-blinker_1 : Matrix Int
-blinker_1 =
-    Matrix.fromList [ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0 ] 5
-
-
-{-| Blinker Universe. Oscillator type with period = 2. State 2.
--}
-blinker_2 : Matrix Int
-blinker_2 =
-    Matrix.fromList [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] 5
-
-
-{-| Glider Universe. Spaceship type. State 1.
--}
-glider_1 : Matrix Int
-glider_1 =
-    Matrix.fromList [ 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] 5
-
-
 {-| Glider Universe. Spaceship type. State 2.
 -}
-glider_2 : Matrix Int
-glider_2 =
+glider2 : Matrix Int
+glider2 =
     Matrix.fromList [ 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 ] 5
 
 
 {-| Glider Universe. Spaceship type. State 3.
 -}
-glider_3 : Matrix Int
-glider_3 =
+glider3 : Matrix Int
+glider3 =
     Matrix.fromList [ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 ] 5
 
 
 {-| Glider Universe. Spaceship type. State 4.
 -}
-glider_4 : Matrix Int
-glider_4 =
+glider4 : Matrix Int
+glider4 =
     Matrix.fromList [ 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0 ] 5
 
 
 {-| Glider Universe. Spaceship type. State 5.
 -}
-glider_5 : Matrix Int
-glider_5 =
+glider5 : Matrix Int
+glider5 =
     Matrix.fromList [ 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0 ] 5
 
 
@@ -83,25 +55,25 @@ suite =
                 Expect.equal boat (transit boat)
         , test "Blinker Universe does not staty the same" <|
             \_ ->
-                Expect.equal blinker_2 (transit blinker_1)
+                Expect.equal blinker2 (transit blinker1)
         , test "Blinker Universe oscilates with period = 2" <|
             \_ ->
-                blinker_1
+                blinker1
                     |> transit
                     |> transit
-                    |> Expect.equal blinker_1
+                    |> Expect.equal blinker1
         , test "Glider Universe moves. Step 1" <|
             \_ ->
-                Expect.equal glider_2 (transit glider_1)
+                Expect.equal glider2 (transit glider)
         , test "Glider Universe moves. Step 2" <|
             \_ ->
-                Expect.equal glider_3 (transit glider_2)
+                Expect.equal glider3 (transit glider2)
         , test "Glider Universe moves. Step 3" <|
             \_ ->
-                Expect.equal glider_4 (transit glider_3)
+                Expect.equal glider4 (transit glider3)
         , test "Glider Universe moves. Step 4" <|
             \_ ->
-                Expect.equal glider_5 (transit glider_4)
+                Expect.equal glider5 (transit glider4)
         , test "initialize" <|
             \_ ->
                 let

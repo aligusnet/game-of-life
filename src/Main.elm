@@ -29,7 +29,7 @@ type alias Model =
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( Model 0 250 200.0 GameOfLife.Pattern.universe2, Cmd.none )
+    ( Model 0 250 200.0 GameOfLife.Pattern.gosperGliderGun, Cmd.none )
 
 
 type Msg
@@ -47,7 +47,7 @@ update msg model =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    if model.step < 100 then
+    if model.step < model.maxSteps then
         Time.every model.interval Tick
 
     else

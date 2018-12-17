@@ -1,6 +1,7 @@
-module GameOfLife exposing (batchInitialize, initialize, isLive, transit)
+module GameOfLife exposing (batchInitialize, initialize, initializeWithLiveCells, isLive, transit)
 
 import Matrix exposing (Matrix)
+import Set
 
 
 {-| Initialize a universe using the given pattern.
@@ -26,7 +27,7 @@ initialize ( minNrows, minNcols ) pattern =
     Matrix.initialize ( nrows, ncols ) f
 
 
-{-| Initialize a universe using the given lis of patterns with offsets.
+{-| Initialize a universe using the given list of patterns with offsets.
 -}
 batchInitialize : ( Int, Int ) -> List ( ( Int, Int ), Matrix Int ) -> Matrix Int
 batchInitialize ( nrows, ncols ) patterns =
@@ -38,6 +39,24 @@ batchInitialize ( nrows, ncols ) patterns =
                 |> Maybe.withDefault 0
     in
     Matrix.initialize ( nrows, ncols ) f
+
+
+{-| Initialize a universe using the given list of live cells.
+-}
+initializeWithLiveCells : ( Int, Int ) -> List ( Int, Int ) -> Matrix Int
+initializeWithLiveCells size cellList =
+    let
+        cells =
+            Set.fromList cellList
+
+        f index =
+            if Set.member index cells then
+                1
+
+            else
+                0
+    in
+    Matrix.initialize size f
 
 
 {-| Calculates the next state of the universe.

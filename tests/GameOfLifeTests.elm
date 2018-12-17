@@ -3,7 +3,7 @@ module GameOfLifeTests exposing (suite)
 import Array
 import Expect exposing (Expectation)
 import Fuzz exposing (Fuzzer, int, list, string)
-import GameOfLife exposing (batchInitialize, initialize, transit)
+import GameOfLife exposing (batchInitialize, initialize, initializeWithLiveCells, transit)
 import GameOfLife.Pattern exposing (blinker1, blinker2, boat, glider)
 import Matrix exposing (Matrix)
 import Test exposing (..)
@@ -106,4 +106,14 @@ suite =
                         [ ( offsets1, pattern1 ), ( offsets2, pattern2 ) ]
                 in
                 Expect.equal expectedMatrix (batchInitialize ( 4, 5 ) patterns)
+        , test "initialize with live cells" <|
+            \_ ->
+                let
+                    liveCells =
+                        [ ( 0, 0 ), ( 1, 1 ), ( 1, 2 ), ( 2, 0 ) ]
+
+                    expectedMatrix =
+                        Matrix.fromList [ 1, 0, 0, 0, 1, 1, 1, 0, 0 ] 3
+                in
+                Expect.equal expectedMatrix (initializeWithLiveCells ( 3, 3 ) liveCells)
         ]

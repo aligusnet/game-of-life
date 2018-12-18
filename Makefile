@@ -3,6 +3,9 @@ ELM_TEST_BIN?=elm-test
 
 ELMFILES = $(wildcard src/*.elm)
 
+run: build
+	elm reactor
+
 build:
 	$(ELM_BIN) make ${ELMFILES} 
 

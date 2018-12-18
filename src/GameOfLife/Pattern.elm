@@ -68,13 +68,13 @@ pulsar =
 -}
 universe1 : Matrix Int
 universe1 =
-    batchInitialize ( 70, 70 )
-        [ ( ( 10, 10 ), engine )
+    batchInitialize ( 50, 50 )
+        [ ( ( 20, 10 ), engine )
         , ( ( 5, 40 ), blinker2 )
         , ( ( 10, 40 ), blinker1 )
         , ( ( 15, 40 ), blinker2 )
         , ( ( 20, 40 ), blinker1 )
-        , ( ( 20, 20 ), boat )
+        , ( ( 30, 40 ), boat )
         ]
 
 
@@ -139,4 +139,4 @@ gosperGliderGun =
             , ( 4, 36 )
             ]
     in
-    initializeWithLiveCells ( 70, 70 ) cells
+    initializeWithLiveCells ( 50, 50 ) cells

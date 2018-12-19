@@ -34,13 +34,18 @@ type alias Model =
     }
 
 
+defaultMaxSteps : Int
+defaultMaxSteps =
+    500
+
+
 init : () -> ( Model, Cmd Msg )
 init _ =
     let
         universe =
             defaultUniverse
     in
-    ( Model 0 250 SI.default universe universe False, Cmd.none )
+    ( Model 0 defaultMaxSteps SI.default universe universe False, Cmd.none )
 
 
 type Msg
@@ -50,6 +55,7 @@ type Msg
     | Reset
     | SetUniverse String
     | SetInterval String
+    | SetMaxSteps String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -91,6 +97,11 @@ update msg model =
             , Cmd.none
             )
 
+        SetMaxSteps value ->
+            ( { model | maxSteps = String.toInt value |> Maybe.withDefault defaultMaxSteps }
+            , Cmd.none
+            )
+
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
@@ -106,6 +117,7 @@ view model =
     div []
         [ viewControlPanel model
         , viewSpeedPanel model
+        , viewMaxStepsPanel model
         , div []
             [ viewUniverseSelect ]
         , div [] [ viewMatrix "560" "#1f77b4" model.universe ]
@@ -144,7 +156,36 @@ viewSpeedPanel model =
                    ]
             )
             []
-        , text (model.si.speed ++ "ticks/sec.")
+        , text (model.si.speed ++ " ticks/sec.")
+        ]
+
+
+viewMaxStepsPanel : Model -> Html Msg
+viewMaxStepsPanel model =
+    let
+        maxSteps =
+            String.fromInt model.maxSteps
+
+        valueProp =
+            if not model.running && model.maxSteps == defaultMaxSteps then
+                [ value maxSteps ]
+
+            else
+                []
+    in
+    div []
+        [ label [ for "steps" ] [ text "Max Steps" ]
+        , input
+            (valueProp
+                ++ [ type_ "range"
+                   , Html.Attributes.min "0"
+                   , step "50"
+                   , Html.Attributes.max "1000"
+                   , on "change" (Json.map SetMaxSteps targetValue)
+                   ]
+            )
+            []
+        , text maxSteps
         ]
 
 

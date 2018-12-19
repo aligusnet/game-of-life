@@ -1,4 +1,4 @@
-module GameOfLife.Pattern exposing (blinker1, blinker2, boat, engine, glider, gosperGliderGun, pulsar, universe1, universe2)
+module GameOfLife.Pattern exposing (blinker1, blinker2, boat, glider, gosperGliderGun, pulsar, universe1, universe2)
 
 import GameOfLife exposing (batchInitialize, initializeWithLiveCells)
 import Matrix exposing (Matrix)
@@ -15,7 +15,24 @@ glider =
 -}
 engine : Matrix Int
 engine =
-    Matrix.fromList [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ] 8
+    let
+        liveCells =
+            [ ( 0, 0 )
+            , ( 0, 1 )
+            , ( 0, 2 )
+            , ( 0, 4 )
+            , ( 1, 0 )
+            , ( 2, 3 )
+            , ( 2, 4 )
+            , ( 3, 1 )
+            , ( 3, 2 )
+            , ( 3, 4 )
+            , ( 4, 0 )
+            , ( 4, 2 )
+            , ( 4, 4 )
+            ]
+    in
+    initializeWithLiveCells ( 5, 5 ) liveCells
 
 
 {-| Boat Universe. Still-live type.
@@ -69,7 +86,7 @@ pulsar =
 universe1 : Matrix Int
 universe1 =
     batchInitialize ( 50, 50 )
-        [ ( ( 20, 10 ), engine )
+        [ ( ( 22, 12 ), engine )
         , ( ( 5, 40 ), blinker2 )
         , ( ( 10, 40 ), blinker1 )
         , ( ( 15, 40 ), blinker2 )

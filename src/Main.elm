@@ -9,6 +9,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (on, onClick, targetValue)
 import Json.Decode as Json
 import Matrix exposing (Matrix)
+import SpeedInterval as SI
 import Time
 import View exposing (viewMatrix)
 
@@ -26,7 +27,7 @@ main =
 type alias Model =
     { step : Int
     , maxSteps : Int
-    , interval : Float
+    , si : SI.SpeedInterval
     , initialUniverse : Matrix Int
     , universe : Matrix Int
     , running : Bool
@@ -39,7 +40,7 @@ init _ =
         universe =
             defaultUniverse
     in
-    ( Model 0 250 200.0 universe universe False, Cmd.none )
+    ( Model 0 250 SI.default universe universe False, Cmd.none )
 
 
 type Msg
@@ -48,6 +49,7 @@ type Msg
     | Pause
     | Reset
     | SetUniverse String
+    | SetInterval String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -84,11 +86,16 @@ update msg model =
             , Cmd.none
             )
 
+        SetInterval index ->
+            ( { model | si = SI.get index }
+            , Cmd.none
+            )
+
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
     if model.running then
-        Time.every model.interval Tick
+        Time.every model.si.interval Tick
 
     else
         Sub.none
@@ -97,13 +104,47 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     div []
+        [ viewControlPanel model
+        , viewSpeedPanel model
+        , div []
+            [ viewUniverseSelect ]
+        , div [] [ viewMatrix "560" "#1f77b4" model.universe ]
+        ]
+
+
+viewControlPanel : Model -> Html Msg
+viewControlPanel model =
+    div []
         [ button [ onClick Start, disabled model.running ] [ text "Start" ]
         , button [ onClick Pause, disabled (not model.running) ] [ text "Pause" ]
         , button [ onClick Reset ] [ text "Reset" ]
         , text (" Steps " ++ String.fromInt model.step ++ "/" ++ String.fromInt model.maxSteps)
-        , div []
-            [ viewUniverseSelect ]
-        , div [] [ viewMatrix "560" "#1f77b4" model.universe ]
+        ]
+
+
+viewSpeedPanel : Model -> Html Msg
+viewSpeedPanel model =
+    let
+        valueProp =
+            if not model.running && model.si == SI.default then
+                [ value (String.fromInt SI.defaultIndex) ]
+
+            else
+                []
+    in
+    div []
+        [ label [ for "speed" ] [ text "Speed" ]
+        , input
+            (valueProp
+                ++ [ type_ "range"
+                   , Html.Attributes.min "0"
+                   , step "1"
+                   , Html.Attributes.max (String.fromInt (SI.size - 1))
+                   , on "change" (Json.map SetInterval targetValue)
+                   ]
+            )
+            []
+        , text (model.si.speed ++ "ticks/sec.")
         ]
 
 

@@ -114,23 +114,35 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
+    let
+        isUniverseSelected =
+            model.initialUniverse /= defaultUniverse
+    in
     div []
-        [ viewControlPanel model
-        , viewSpeedPanel model
-        , viewMaxStepsPanel model
-        , div []
-            [ viewUniverseSelect ]
-        , div [] [ viewMatrix "560" "#1f77b4" model.universe ]
-        ]
+        ([ viewUniverseSelect
+         , viewSpeedPanel model
+         , viewMaxStepsPanel model
+         , viewControlPanel model
+         ]
+            ++ [ div [ class "universe", hidden (not isUniverseSelected) ] [ viewMatrix model.universe ] ]
+        )
 
 
 viewControlPanel : Model -> Html Msg
 viewControlPanel model =
-    div []
+    div [ class "control-panel" ]
         [ button [ onClick Start, disabled model.running ] [ text "Start" ]
         , button [ onClick Pause, disabled (not model.running) ] [ text "Pause" ]
         , button [ onClick Reset ] [ text "Reset" ]
         , text (" Steps " ++ String.fromInt model.step ++ "/" ++ String.fromInt model.maxSteps)
+        ]
+
+
+viewPanel caption inputName inputProperties txt =
+    div [ class "panel" ]
+        [ div [ class "panel-label" ] [ label [ for inputName ] [ text caption ] ]
+        , input ([ name inputName, class "panel-input" ] ++ inputProperties) []
+        , div [ class "panel-value" ] [ text txt ]
         ]
 
 
@@ -143,21 +155,17 @@ viewSpeedPanel model =
 
             else
                 []
-    in
-    div []
-        [ label [ for "speed" ] [ text "Speed" ]
-        , input
-            (valueProp
+
+        properties =
+            valueProp
                 ++ [ type_ "range"
                    , Html.Attributes.min "0"
                    , step "1"
                    , Html.Attributes.max (String.fromInt (SI.size - 1))
                    , on "change" (Json.map SetInterval targetValue)
                    ]
-            )
-            []
-        , text (model.si.speed ++ " ticks/sec.")
-        ]
+    in
+    viewPanel "Speed" "speed" properties (model.si.speed ++ " ticks/sec.")
 
 
 viewMaxStepsPanel : Model -> Html Msg
@@ -172,21 +180,17 @@ viewMaxStepsPanel model =
 
             else
                 []
-    in
-    div []
-        [ label [ for "steps" ] [ text "Max Steps" ]
-        , input
-            (valueProp
+
+        properties =
+            valueProp
                 ++ [ type_ "range"
                    , Html.Attributes.min "0"
                    , step "50"
                    , Html.Attributes.max "1000"
                    , on "change" (Json.map SetMaxSteps targetValue)
                    ]
-            )
-            []
-        , text maxSteps
-        ]
+    in
+    viewPanel "Max Steps" "steps" properties maxSteps
 
 
 viewUniverseSelect : Html Msg
@@ -196,7 +200,7 @@ viewUniverseSelect =
             universeList
                 |> List.map (\( v, t, _ ) -> option [ value v ] [ text t ])
     in
-    select [ on "change" (Json.map SetUniverse targetValue) ] options
+    select [ class "universe-select", on "change" (Json.map SetUniverse targetValue) ] options
 
 
 getUniverse : String -> Matrix Int

@@ -156,4 +156,4 @@ gosperGliderGun =
             , ( 4, 36 )
             ]
     in
-    initializeWithLiveCells ( 50, 50 ) cells
+    initializeWithLiveCells ( 37, 50 ) cells

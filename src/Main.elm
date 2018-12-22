@@ -50,7 +50,7 @@ init _ =
 
 type Msg
     = Tick Time.Posix
-    | Start
+    | Play
     | Pause
     | Reset
     | SetUniverse String
@@ -72,7 +72,7 @@ update msg model =
                 , Cmd.none
                 )
 
-        Start ->
+        Play ->
             ( { model | running = True }
             , Cmd.none
             )
@@ -131,7 +131,7 @@ view model =
 viewControlPanel : Model -> Html Msg
 viewControlPanel model =
     div [ class "control-panel" ]
-        [ button [ onClick Start, disabled model.running ] [ text "Start" ]
+        [ button [ onClick Play, disabled model.running ] [ text "Play" ]
         , button [ onClick Pause, disabled (not model.running) ] [ text "Pause" ]
         , button [ onClick Reset ] [ text "Reset" ]
         , text (" Steps " ++ String.fromInt model.step ++ "/" ++ String.fromInt model.maxSteps)
